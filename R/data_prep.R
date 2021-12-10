@@ -1,5 +1,6 @@
 #' Load the cleaned and jittered data. Optionally do various cleaning/data prep
 #' tasks.
+#' #' @export
 #'
 #' @param path (str) path to data file
 #' @param dedup (bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)
@@ -37,6 +38,7 @@ load_data = function(path, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FA
 
 
 #' Fill missing smoking values using the medians for each CIG_CAT
+#' @export
 #'
 #' @param df (data.frame) NEBCS data
 #' @return df (data.frame) Same data as df, but with missing CIGDUR values filled
