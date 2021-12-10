@@ -1,0 +1,12 @@
+#' NEBCS data with jittered X/Y locations, duplicate rows removed,
+#' rows with missing locations removed, and genders converted to numeric
+#' (male == 2, female == 1).
+#'
+#' @format A data frame with 173206 rows and 73 variables:
+#' \describe{
+#'   \item{PID}{unique person identifier}
+#'   \item{YEAR}{year the answers in the row correspond o}
+#'   \item{CASE_CNTL}{whether or not (bool) the person was diagnosed with bladder cancer}
+#' }
+#' @source \url{https://dceg.cancer.gov/research/cancer-types/bladder/bladder-new-england}
+"df"

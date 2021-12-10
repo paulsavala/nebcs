@@ -1,0 +1,19 @@
+# Code to prepare `data/data.rda` dataset goes here
+
+data = read.csv('jitter_data.csv')
+
+###### Data prep ######
+library(dplyr)
+library(usethis)
+
+# Remove duplicate rows (when someone moves)
+data = data %>% dplyr::group_by(PID, YEAR) %>% dplyr::summarise_all(first)
+
+# Drop rows with missing coordinates
+data = data[!is.na(data$X_COORD), ]
+data = data[!is.na(data$Y_COORD), ]
+
+# Convert gender to numeric
+data$GENDER = as.numeric(as.factor(data$GENDER))
+
+usethis::use_data(data, overwrite = TRUE)
