@@ -1,6 +1,6 @@
 Package: nebcs
 Type: Package
-Title: NEBCS data loading and processing
+Title: NEBCS data loading, processing and analysis
 Version: 0.1.0
 Author: Paul Savala
 Maintainer: Paul Savala <psavala@stedwards.edu>

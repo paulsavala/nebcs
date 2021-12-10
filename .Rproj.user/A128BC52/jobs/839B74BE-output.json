@@ -1,0 +1,8 @@
+[1,"Installing 'markdown' for R Markdown...\n"]
+[1,"Retrieving 'https://cran.rstudio.com/bin/macosx/contrib/4.1/markdown_1.1.tgz' ...\n"]
+[1,"\tOK [downloaded 194.2 Kb in 0.2 secs]\n"]
+[1,"Installing markdown [1.1] ...\n"]
+[1,"\tOK [installed binary]\n"]
+[1,"Moving markdown [1.1] into the cache ...\n"]
+[1,"\tOK [moved to cache in 1.2 seconds]\n"]
+[2,"\n\n✔ Package 'markdown' successfully installed.\n"]
