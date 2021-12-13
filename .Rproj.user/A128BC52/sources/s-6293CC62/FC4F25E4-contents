@@ -1,3 +1,0 @@
-load_data = function() {
-  load(file='data/data.rda')
-}

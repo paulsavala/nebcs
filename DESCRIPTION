@@ -15,7 +15,14 @@ Imports:
     gWQS,
     ggplot2,
     magrittr,
-    systemfonts (>= 1.0.2)
+    systemfonts (>= 1.0.2),
+    mltools,
+    data.table,
+    fields,
+    caret
 RoxygenNote: 7.1.2
-Remotes:  
+Remotes: 
     r-lib/systemfonts
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

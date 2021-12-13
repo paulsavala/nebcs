@@ -1,4 +1,0 @@
-exportPattern("^[[:alpha:]]+")
-
-importFrom("stats", "median", "quantile")
-importFrom("utils", "read.csv")
