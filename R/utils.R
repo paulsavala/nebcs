@@ -68,3 +68,38 @@ powerset = function(s){
     }
     return(l)
 }
+
+
+#' One-hot categorical columns
+#' @export
+#'
+#' @param df (data.frame) Data
+#' @param cols (array) Array of names of columns to one-hot
+#' @param drop_orig (bool) (default=TRUE), Whether or not drop the column and
+#' only retain the newly created one-hotted columns. If FALSE, the original
+#' columns will be included as well as the one-hotted columns.
+#' @return (data.frame) Same data as df, additional columns for all columns
+#' to one-hot. New column names are of the form `old-col-name_col-value`
+#' @examples
+#' onehot(df, cols=c('col1', 'col2'))
+onehot = function(df, cols, drop_orig=TRUE) {
+  for (c in cols) {
+    df[, c] = as.factor(df[, c])
+  }
+  X_oh = mltools::one_hot(data.table::as.data.table(df), cols=cols, dropCols=drop_orig)
+  return(X_oh)
+}
+
+
+#' Euclidean distance function
+#' @export
+#'
+#' @param x1 (tuple<real>) A tuple of real numbers
+#' @param x2 (tuple<real>) A tuple of real numbers
+#' @return (real) Euclidean distance between x1 and x2
+#' @examples
+#' dist(c(1, 2), c(3, 4))
+euc_dist = function(x1, x2) {
+  d = sqrt(sum((x1 - x2) ^ 2))
+  return(d)
+}

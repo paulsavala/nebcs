@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_prep.R
 \name{fill_missing_cigdur}
 \alias{fill_missing_cigdur}
-\title{Fill missing smoking values using the medians for each CIG_CAT}
+\title{Fill missing smoking values for each CIG_CAT}
 \usage{
 fill_missing_cigdur(df)
 }
@@ -10,10 +10,10 @@ fill_missing_cigdur(df)
 \item{df}{(data.frame) NEBCS data}
 }
 \value{
-df (data.frame) A data frame of people
+(data.frame) Same data as df, but with missing CIGDUR values filled
 }
 \description{
-Fill missing smoking values using the medians for each CIG_CAT
+Fill missing smoking values for each CIG_CAT
 }
 \examples{
 fill_missing_cigdur(df)

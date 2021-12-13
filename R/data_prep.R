@@ -10,12 +10,16 @@
 #' @return (data.frame) A data frame of people
 #' @examples
 #' load_data('abc123', dedup=TRUE, drop_missing_coords=FALSE, ...)
-load_data = function(google_id, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0) { # nolint
-  df = read.csv(paste0('https://drive.google.com/uc?id=', google_id))
+load_data = function(google_id, local_path=NULL, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0) { # nolint
+  if (!is.null(local_path)) {
+    df = read.csv(local_path)
+  } else {
+    df = read.csv(paste0('https://drive.google.com/uc?id=', google_id))
+  }
 
   if (dedup) {
     # Remove duplicate rows (when someone moves)
-    df = df %>% dplyr::group_by(PID, YEAR) %>% dplyr::summarise_all(first)
+    df = df %>% dplyr::group_by(PID, YEAR) %>% dplyr::summarise_all(dplyr::first)
   }
 
   if (drop_missing_coords) {
@@ -71,27 +75,6 @@ fill_missing_cigdur = function(df) {
   }
 
   return(df)
-}
-
-
-#' One-hot categorical columns
-#' @export
-#'
-#' @param df (data.frame) Data
-#' @param cols (array) Array of names of columns to one-hot
-#' @param drop_orig (bool) (default=TRUE), Whether or not drop the column and
-#' only retain the newly created one-hotted columns. If FALSE, the original
-#' columns will be included as well as the one-hotted columns.
-#' @return (data.frame) Same data as df, additional columns for all columns
-#' to one-hot. New column names are of the form `old-col-name_col-value`
-#' @examples
-#' onehot(df, cols=c('col1', 'col2'))
-onehot = function(df, cols, drop_orig=TRUE) {
-  for (c in cols) {
-    df[, c] = as.factor(df[, c])
-  }
-  X_oh = mltools::one_hot(data.table::as.data.table(df), cols=cols, dropCols=drop_orig)
-  return(X_oh)
 }
 
 
@@ -155,7 +138,7 @@ train_test_split = function(df, test_size, combine=FALSE) {
   if (combine) {
     train_df$validation = 0
     test_df$validation = 1
-    comb_df = rbind(train_df, test_df))
+    comb_df = rbind(train_df, test_df)
     return(list(train=train_df, test=test_df, combined_df=comb_df))
   } else {
     return(list(train=train_df, test=test_df))

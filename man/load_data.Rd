@@ -3,10 +3,11 @@
 \name{load_data}
 \alias{load_data}
 \title{Load the cleaned and jittered data. Optionally do various cleaning/data prep
-tasks.}
+tasks.
+#' @export}
 \usage{
 load_data(
-  path,
+  google_id,
   dedup = FALSE,
   drop_missing_coords = FALSE,
   to_numeric = FALSE,
@@ -14,7 +15,7 @@ load_data(
 )
 }
 \arguments{
-\item{path}{(str) path to data file}
+\item{google_id}{(str) Google file ID. File must be set to shareable via link.}
 
 \item{dedup}{(bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)}
 
@@ -25,12 +26,13 @@ load_data(
 \item{N}{(int) (Optional) A positive integer indicating the years to keep for each person}
 }
 \value{
-df (data.frame) A data frame of people
+(data.frame) A data frame of people
 }
 \description{
 Load the cleaned and jittered data. Optionally do various cleaning/data prep
 tasks.
+#' @export
 }
 \examples{
-load_data('my_data.csv', dedup=TRUE, drop_missing_coords=FALSE, ...)
+load_data('abc123', dedup=TRUE, drop_missing_coords=FALSE, ...)
 }
