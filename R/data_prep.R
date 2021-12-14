@@ -56,6 +56,11 @@ fill_missing_cigdur = function(df) {
     df[df$CIG_CAT == -1 & is.na(df$CIGDUR),]$CIGDUR = occ_cigdur
   }
 
+  # Fill 0 (non-smoker) with zero.
+  if(nrow(df[df$CIG_CAT == 0 & is.na(df$CIGDUR),]) > 0) {
+    df[df$CIG_CAT == 0 & is.na(df$CIGDUR),]$CIGDUR = 0
+  }
+
   # Fill 1 (former smoker) with median of former smokers
   if(nrow(df[df$CIG_CAT == 1 & is.na(df$CIGDUR),]) > 0) {
     form_cigdur = median(df[df$CIG_CAT == 1, ]$CIGDUR, na.rm=TRUE)
@@ -87,10 +92,18 @@ fill_missing_cigdur = function(df) {
 #' to-person.
 #' @examples
 #' get_health_variables(df)
-get_health_variables = function(df) {
-  health_df = df[, c('PID', person_cols)] %>% dplyr::group_by(PID) %>% dplyr::summarise_all(max)
-  health_df = as.data.frame(health_df)
-  return(health_df)
+get_health_variables = function() {
+  health_cols = c('REGION', 
+    'GENDER', 
+    'REF_AGE_GRP2',
+    'RACE_GRP2', 
+    'HISPANIC_YN', 
+    'FRENCH', 
+    'CIG_CAT', 
+    'BLACKEVER',
+    'EDUC_GRP', 
+    'CIGDUR')
+  return(health_cols)
 }
 
 
@@ -108,7 +121,8 @@ get_case_cntl = function(df) {
 }
 
 
-#' Train-test split by person, so that no person shows up in both the training and test set
+#' Train-test split by person, so that no person shows up in both the training and test set.
+#' Note that test_size refers to the number/percentage of _people_, not of _rows_.
 #' @export
 #'
 #' @param df (data.frame) NEBCS data
@@ -123,7 +137,7 @@ get_case_cntl = function(df) {
 #' tts_df_list$test
 train_test_split = function(df, test_size, combine=FALSE) {
   if (test_size > 0 && test_size < 1) {
-    test_size = round(nrow(df) * test_size)
+    test_size = round(length(unique(df$PID)) * test_size)
   } else if (test_size >= 1) {
     test_size = round(test_size)
   } else {
@@ -139,7 +153,7 @@ train_test_split = function(df, test_size, combine=FALSE) {
     train_df$validation = 0
     test_df$validation = 1
     comb_df = rbind(train_df, test_df)
-    return(list(train=train_df, test=test_df, combined_df=comb_df))
+    return(list(train=train_df, test=test_df, combined=comb_df))
   } else {
     return(list(train=train_df, test=test_df))
   }
