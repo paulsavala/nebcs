@@ -4,11 +4,14 @@
 #' @export
 #'
 #' @param df (data.frame) NEBCS data
-#' @param cols (list) list of column names to look for NA values
+#' @param cols (list) list of column names to look for NA values. Defaults to all columns.
 #' @return (number) Number of rows with NA values in any of the cols supplied
 #' @examples
 #' has_na(df, c('YEAR', 'CIGDUR'))
-has_na = function(df, cols) {
+has_na = function(df, cols=NULL) {
+    if (is.null(cols)) {
+        cols = names(df)
+    }
     if (length(cols) > 1) {
         return(sum(rowSums(is.na(df[, cols])) > 0))
     } else {
@@ -25,11 +28,14 @@ has_na = function(df, cols) {
 #' @return (data.frame) Same data as df, but with rows with NA values in any of the requested columns removed
 #' @examples
 #' filter_na(df, c('YEAR', 'CIGDUR'))
-filter_na = function(df, cols) {
+filter_na = function(df, cols=NULL) {
+    if (is.null(cols)) {
+        cols = names(df)
+    }
     if (length(cols) > 1) {
-        return(df[rowSums(is.na(df[, cols])) == 0, cols])
+        return(df[rowSums(is.na(df[, cols])) == 0, ])
     } else {
-        return(df[is.na(df[, cols]) == FALSE, cols])
+        return(df[is.na(df[, cols]) == FALSE, ])
     }
 }
 
@@ -49,24 +55,25 @@ cor_mat = function(df) {
 }
 
 
-#' Calculate the powerset of a list or similar object
+#' Calculate the powerset of a list or similar object.
+#' Source: https://rdrr.io/cran/rje/src/R/powerSet.R
 #' @export
 #'
 #' @param s (set, list, array) 1-dimensional object
 #' @return (set, list, array) Object of the same type as parameter s
 #' @examples
 #' powerset(c(1, 2, 3))
-powerset = function(s){
-    len = length(s)
-    l = vector(mode="list",length=2^len) ; l[[1]]=numeric()
-    counter = 1L
-    for(x in 1L:length(s)){
-        for(subset in 1L:counter){
-            counter=counter+1L
-            l[[counter]] = c(l[[subset]],s[x])
-        }
+powerset = function (x) {
+    m = length(x)
+    if (m == 0) return(list(x[c()]))
+  
+    out = list(x[c()])
+    if (length(x) == 1) 
+        return(c(out, list(x)))
+    for (i in seq_along(x)) {
+        out = c(out, lapply(out[lengths(out) < m], function(y) c(y, x[i])))
     }
-    return(l)
+    out
 }
 
 
@@ -87,7 +94,7 @@ onehot = function(df, cols, drop_orig=TRUE) {
     df[, c] = as.factor(df[, c])
   }
   X_oh = mltools::one_hot(data.table::as.data.table(df), cols=cols, dropCols=drop_orig)
-  return(X_oh)
+  return(as.data.frame(X_oh))
 }
 
 
