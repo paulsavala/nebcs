@@ -7,7 +7,7 @@ From an R terminal:
 # Install devtools if you haven't already
 install.packages('devtools')
 library(devtools)
-devtool::install_github('paulsavala/nebcs')
+devtools::install_github('paulsavala/nebcs')
 library(nebcs)
 ```
 
