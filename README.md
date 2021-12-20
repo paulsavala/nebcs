@@ -111,7 +111,32 @@ Params:
 
   
 ## Dimension reduction
-To-do
+`wqs(...)` - Wrapper function for gWQS. All parameters are passed directly to the gwqs function of the gWQS package. The parameters listed below are the ones commonly used when we do WQS. However, you can supply any parameters you wish from the gWQS documentation.  See https://cran.r-project.org/web/packages/gWQS/gWQS.pdf
+
+Params:
+- `formula` (formula) y-col ~ wqs
+- `data` (data.frame) data
+- `mix_name` (vector<character>) column names for the mixture components
+- `valid_var` (character) column name for the validation variable
+- `b` (number) number of bootstrap samples to use in parameter estimation
+- `b1_pos` (bool) whether weights are derived from models where the beta values were positive or negative
+- `b1_constr` (bool) whether to apply positive (if `b1_pos = TRUE`) or negative (if `b1_pos = FALSE`) constraints in the optimization function for the weight estimation
+- `q` (number) An integer to specify how mixture variables will be ranked, e.g. in quartiles (`q = 4`), deciles (`q = 10`), or percentiles (`q = 100`). If `q = NULL` then the values of the mixture variables are taken (these must be standardized)
+- `family` (character) family of the model, e.g. "gaussian", "binomial"
+- `seed` (number) seed for the random number generator
+- return (results) Results object from gWQS. See gWQS documentation for details and ways to interact with these results.
+
+  
+`mdr(df, X_cols, y_col, cv=5, grid=FALSE, nrows=1)` - Perform multifactor dimension reduction (MDR) on the data. Uses cross-validation and an optional grid search on smoothers, as well as preprocessing for best results. Follows this tutorial: https://uc-r.github.io/naive_bayes
+
+Params:
+- `df` (data.frame) NEBCS data
+- `X_cols` (array<character>) column names for the explanatory variables
+- `y_col` (character) column name for the response variable
+- `cv` (integer) (default=5) number of cross-validation folds
+- `grid` (bool) (default=`FALSE`) whether to perform a grid search on smoothers
+- `nrows` (number) a float between 0 and 1 indicating the percentage of rows to randomly sample, or a number indicating the number of rows to sample
+- return (matrix) Pearson correlation matrix  
 
 ## Graphing
 To-do
