@@ -18,23 +18,75 @@ You must supply your own copy of the NEBCS data, it _is not_ included in this
 repo. However, once you have your own copy you can process it using the functions
 below.
 
-`df = load_data(path, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0)`
-
+`load_data(path, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0)`
 Params:
-- path (str) path to data file
-- dedup (bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)
-- drop_missing_coords (bool) (Optional) Whether or not to drop rows with missing X/Y coordinates
-- to_numeric (bool) (Optional) Whether or not to convert character columns (gender) to numeric
-- N (int) (Optional) A positive integer indicating the years to keep for each person
+- `path` (str) path to data file
+- `dedup` (bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)
+- `drop_missing_coords` (bool) (Optional) Whether or not to drop rows with missing X/Y coordinates
+- `to_numeric` (bool) (Optional) Whether or not to convert character columns (gender) to numeric
+- `N` (int) (Optional) A positive integer indicating the years to keep for each person
+- return (data.frame) A data frame of people
+
+`fill_missing_cigdur(df)` - Fill missing smoking values for each CIG_CAT
+Params:
+- `df` (data.frame) NEBCS data
+- return (data.frame) Same data as `df`, but with missing `CIGDUR` values filled
+
+`get_case_cntl(df)` - A data frame with just the `PID` and `CASE_CNTL` values
+Params:
+- `df` (data.frame) NEBCS data
+- return (data.frame) Data frame with just the PID and CASE_CNTL values
+
+`train_test_split(df, test_size, combine=FALSE)` - Train-test split by person, so that no person shows up in both the training and test set. Note that test_size refers to the number/percentage of _people_, not of _rows_.
+Params:
+- `df` (data.frame) NEBCS data
+- `test_size` (number) Float between 0 and 1 indicating a percentage of the data to use as the test set, or integer indicating the number of rows to use as the test set.
+- `combine` (bool) (default=FALSE) Whether or not to combine the training and test sets with test set marked as `validation == 1`.
+- return (list<data.frame>) Training set, test set, optionally combined set.
 
 ## Health variables
-To-do
+`get_health_cols()` - Returns the column names for the health variables.
+Params:
+- return (array) Array of health column names
 
 ## Pollutants
-To-do
+`get_pollutant_cols()` - Returns pollutant columns
+Params:
+- return (array) Array of pollutant column names
+
+`group_pollutant_cols()` - Returns named list of pollutant column names, grouped by pollutant type
+Params:
+- return (list<array>) Named list of pollutant column names, grouped by pollutant type
 
 ## Low-rank kriging
-To-do
+`make_knots(df, N_k, ...)` - Choose knots according to a swapping algorithm. Uses `cover.design` from the `fields` package.
+Params:
+- `df` (data.frame) Data frame of NEBCS data
+- `N_k` (int) Desired number of knots
+- `...` Additional named arguments to pass to `cover.design(...)`
+- return (data.frame) Data frame with columns `"x"` and `"y"`
+
+`matern(d)` - Matern function
+Params:
+- `d` (number) Number to evaluate the matern function at
+- return (real) Matern function evaluated at `d`
+
+`euc_dist(x1, x2)` - Euclidean distance function
+Params:
+- `x1` (tuple<real>) A tuple of real numbers
+- `x2` (tuple<real>) A tuple of real numbers
+- return (real) Euclidean distance between `x1` and `x2`
+
+`make_dist_mat(K)` - Given a data frame or matrix where the first column corresponds to the x-value and the second column corresponds to the y-value (or vice-versa), returns a matrix where the i-j'th coordinate is the Euclidean distance between the i'th and j'th rows.
+Params:
+- `K` (data.frame or matrix) A data frame or matrix of coordinates
+- return (matrix) A matrix of Euclidean distances
+
+`calculate_rho(K, scale=1)` - Calculate scaling parameter so that the max value is no more than 10. This allows for the Matern function to give a nice range of values and not just squishing everything down to 1.0.
+Params:
+- `K` (data.frame or matrix) A data frame or matrix of coordinates
+- `scale` (real) The scale value
+- return (real) `scale * rho`
 
 ## Dimension reduction
 To-do
@@ -47,3 +99,28 @@ To-do
 
 ## Fit analysis
 To-do
+
+## Utils
+`count_na(df, cols=NULL)` - Returns number of rows with `NA` values in any of the cols supplied
+Params:
+- `df` (data.frame) NEBCS data
+- `cols` (list) list of column names to look for `NA` values. Defaults to all columns.
+- return (number) Number of rows with`NA` values in any of the cols supplied
+
+`remove_na(df, cols=NULL)` - Remove rows with `NA` values in any of the requested columns
+Params:
+- `df` (data.frame) NEBCS data
+- `cols` (list) list of column names to look for `NA` values
+- return (data.frame) Same data as `df`, but with rows with `NA` values in any of the requested columns removed
+
+`cor_mat(df)` - Make a correlation matrix with lower diagonal masked (for ease of readability)
+Params:
+- `df` (data.frame) NEBCS data
+- return (matrix) Pearson correlation matrix
+
+`onehot(df, cols, drop_orig=TRUE)` - One-hot categorical columns
+Params:
+- `df` (data.frame) Data
+- `cols` (array) Array of names of columns to one-hot
+- `drop_orig` (bool) (default=TRUE), Whether or not drop the column and only retain the newly created one-hotted columns. If FALSE, the original columns will be included as well as the one-hotted columns.
+- return (data.frame) Same data as `df`, additional columns for all columns to one-hot. New column names are of the form `old-col-name_col-value`
