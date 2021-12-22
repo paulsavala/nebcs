@@ -1,37 +1,37 @@
-test_that("has_na identifies NA values", {
+test_that("count_na identifies NA values", {
   df = data.frame(a=c(NA, 1, 2), b=c(1, NA, 3), c=c(1, 2, 3))
 
   # Finds NA in a single column
-  expect_gt(has_na(df, 'a'), 0)
+  expect_gt(count_na(df, 'a'), 0)
 
   # Finds NA in two columns
-  expect_gt(has_na(df, c('a', 'b')), 0)
+  expect_gt(count_na(df, c('a', 'b')), 0)
 
   # Finds NA in all columns
-  expect_gt(has_na(df), 0)
+  expect_gt(count_na(df), 0)
 
   # Fails to find NA when no NA are present
-  expect_equal(has_na(df, 'c'), 0)
+  expect_equal(count_na(df, 'c'), 0)
 })
 
 
-test_that("filter_na removes NA values", {
+test_that("remove_na removes NA values", {
   orig_df = data.frame(a=c(NA, 1, 2), b=c(1, NA, 3), c=c(1, 2, 3))
 
   # Filters NA in a single column
-  df = filter_na(orig_df, 'a')
+  df = remove_na(orig_df, 'a')
   expect_equal(sum(is.na(df$a)), 0)
 
   # Filters NA in two columns
-  df = filter_na(orig_df, c('a', 'b'))
+  df = remove_na(orig_df, c('a', 'b'))
   expect_equal(sum(is.na(df)), 0)
 
   # Filters NA in all columns
-  df = filter_na(orig_df, c('a', 'b', 'c'))
+  df = remove_na(orig_df, c('a', 'b', 'c'))
   expect_equal(sum(is.na(df)), 0)
 
   # Leaves columns with no NA unchanged
-  df = filter_na(orig_df, 'c')
+  df = remove_na(orig_df, 'c')
   expect_equal(df, orig_df)
 })
 

@@ -3,6 +3,7 @@
 #' #' @export
 #'
 #' @param google_id (str) Google file ID. File must be set to shareable via link.
+#' @param local_path (str) (Optional) Local path to the data.
 #' @param dedup (bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)
 #' @param drop_missing_coords (bool) (Optional) Whether or not to drop rows with missing X/Y coordinates
 #' @param to_numeric (bool) (Optional) Whether or not to convert character columns (gender) to numeric
@@ -80,30 +81,6 @@ fill_missing_cigdur = function(df) {
   }
 
   return(df)
-}
-
-
-#' Get data frame of just health variables (including PID)
-#' @export
-#'
-#' @param df (data.frame) NEBCS data
-#' @return (data.frame) Same data as df, but with only PID and health variables.
-#' Filtered to include only one row per-PID, as these values do not change person-
-#' to-person.
-#' @examples
-#' get_health_variables(df)
-get_health_variables = function() {
-  health_cols = c('REGION', 
-    'GENDER', 
-    'REF_AGE_GRP2',
-    'RACE_GRP2', 
-    'HISPANIC_YN', 
-    'FRENCH', 
-    'CIG_CAT', 
-    'BLACKEVER',
-    'EDUC_GRP', 
-    'CIGDUR')
-  return(health_cols)
 }
 
 

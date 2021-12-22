@@ -19,7 +19,8 @@ Imports:
     mltools,
     data.table,
     fields,
-    caret
+    caret,
+    superpc
 RoxygenNote: 7.1.2
 Remotes: 
     r-lib/systemfonts

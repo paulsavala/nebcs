@@ -52,10 +52,10 @@ test_that("fill_missing_cigdur fills missing values", {
   expect_equal(sum(is.na(df$CIGDUR)), 0)
 })
 
-test_that("get_health_variables returns all health variables", {
+test_that("get_health_cols returns all health variable columns", {
   df = load_data(local_path='test_data.csv')
-  health_vars = get_health_variables()
-  expect_equal(length(health_vars), 10)
+  health_cols = get_health_cols()
+  expect_equal(length(health_cols), 10)
 }) 
 
 test_that("get_case_cntl returns one CASE_CNTL value per PID", {

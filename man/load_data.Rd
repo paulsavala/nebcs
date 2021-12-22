@@ -8,6 +8,7 @@ tasks.
 \usage{
 load_data(
   google_id,
+  local_path = NULL,
   dedup = FALSE,
   drop_missing_coords = FALSE,
   to_numeric = FALSE,
@@ -16,6 +17,8 @@ load_data(
 }
 \arguments{
 \item{google_id}{(str) Google file ID. File must be set to shareable via link.}
+
+\item{local_path}{(str) (Optional) Local path to the data.}
 
 \item{dedup}{(bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)}
 

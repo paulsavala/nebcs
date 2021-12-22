@@ -1,4 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 
-importFrom("stats", "median", "quantile")
+importFrom("stats", "median", "quantile", "cor", "glm", "predict")
 importFrom("utils", "read.csv")

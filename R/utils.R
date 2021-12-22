@@ -7,8 +7,8 @@
 #' @param cols (list) list of column names to look for NA values. Defaults to all columns.
 #' @return (number) Number of rows with NA values in any of the cols supplied
 #' @examples
-#' has_na(df, c('YEAR', 'CIGDUR'))
-has_na = function(df, cols=NULL) {
+#' count_na(df, c('YEAR', 'CIGDUR'))
+count_na = function(df, cols=NULL) {
     if (is.null(cols)) {
         cols = names(df)
     }
@@ -27,8 +27,8 @@ has_na = function(df, cols=NULL) {
 #' @param cols (list) list of column names to look for NA values
 #' @return (data.frame) Same data as df, but with rows with NA values in any of the requested columns removed
 #' @examples
-#' filter_na(df, c('YEAR', 'CIGDUR'))
-filter_na = function(df, cols=NULL) {
+#' remove_na(df, c('YEAR', 'CIGDUR'))
+remove_na = function(df, cols=NULL) {
     if (is.null(cols)) {
         cols = names(df)
     }
@@ -59,7 +59,7 @@ cor_mat = function(df) {
 #' Source: https://rdrr.io/cran/rje/src/R/powerSet.R
 #' @export
 #'
-#' @param s (set, list, array) 1-dimensional object
+#' @param x (set, list, array) 1-dimensional object
 #' @return (set, list, array) Object of the same type as parameter s
 #' @examples
 #' powerset(c(1, 2, 3))
@@ -95,18 +95,4 @@ onehot = function(df, cols, drop_orig=TRUE) {
   }
   X_oh = mltools::one_hot(data.table::as.data.table(df), cols=cols, dropCols=drop_orig)
   return(as.data.frame(X_oh))
-}
-
-
-#' Euclidean distance function
-#' @export
-#'
-#' @param x1 (tuple<real>) A tuple of real numbers
-#' @param x2 (tuple<real>) A tuple of real numbers
-#' @return (real) Euclidean distance between x1 and x2
-#' @examples
-#' dist(c(1, 2), c(3, 4))
-euc_dist = function(x1, x2) {
-  d = sqrt(sum((x1 - x2) ^ 2))
-  return(d)
 }

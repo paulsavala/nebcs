@@ -4,15 +4,16 @@
 #'
 #' @param df (data.frame) NEBCS data
 #' @param N_k (int) Number of knots to choose
-#' @return (data.frame) Data frame with columns
+#' @param ... Additional named arguments to pass to cover.design
+#' @return (data.frame) Data frame with columns x and y
 #' @examples
 #' get_case_cntl(df)
-make_knots = function(df, N_k) {
+make_knots = function(df, N_k, ...) {
   # remove duplicate locations
   loc_df = df[, c('X_COORD', 'Y_COORD')]
   names(loc_df) = c('x', 'y')
   loc_df = loc_df[!duplicated(loc_df), ]
-  design = fields::cover.design(R=loc_df, nd=N_k)
+  design = fields::cover.design(R=loc_df, nd=N_k, ...)
   knots_df = as.data.frame(design$design)
   return(knots_df)
 }
@@ -27,6 +28,19 @@ make_knots = function(df, N_k) {
 #' matern(-1.23)
 matern = function(d) {
   return(1 + abs(d) * exp(-abs(d)))
+}
+
+#' Euclidean distance function
+#' @export
+#'
+#' @param x1 (tuple<real>) A tuple of real numbers
+#' @param x2 (tuple<real>) A tuple of real numbers
+#' @return (real) Euclidean distance between x1 and x2
+#' @examples
+#' dist(c(1, 2), c(3, 4))
+euc_dist = function(x1, x2) {
+  d = sqrt(sum((x1 - x2) ^ 2))
+  return(d)
 }
 
 
@@ -59,7 +73,7 @@ make_dist_mat = function(K) {
 #'
 #' @param K (data.frame or matrix) A data frame or matrix of coordinates
 #' @param scale (real) The scale value
-#' @return (real) Euclidean distance between x1 and x2
+#' @return (real) scale * rho
 #' @examples
 #' calculate_rho(data.frame(x=c(1, 2, 3), y=c(4, 5, 6)))
 calculate_rho = function(K, scale=1) {
