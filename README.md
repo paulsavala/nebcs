@@ -138,6 +138,34 @@ Params:
 - `nrows` (number) a float between 0 and 1 indicating the percentage of rows to randomly sample, or a number indicating the number of rows to sample
 - return (matrix) Pearson correlation matrix  
 
+
+`spca(df, X_cols, y_col='CASE_CNTL', min.thrdshold=0.1, max.threshold=5, num.thresholds=100, test.size=0.3, verbose=TRUE)` - Perform supervised principal component analysis (SPCA) on the data. The optimal threshold is estimated using cross validation. This produces a threshold which yields a subset of the columns. See original paper (https://tibshirani.su.domains/ftp/spca.pdf) for details.
+
+Params:
+- `df` (data.frame) NEBCS data
+- `X_cols` (array<character>) column names for the explanatory variables
+- `y_col` (character) (default='CASE_CNTL') column name for the response variable
+- `min.threshold` (number) (default=0.1) minimum threshold for the dimension reduction process
+- `max.threshold` (number) (default=5) maximum threshold for the dimension reduction process
+- `num.thresholds` (integer) (default=100) number of thresholds to use
+- `test.size` (number) (default=0.3) percentage of the data to use for testing during cross-validation
+- `verbose` (bool) (default=TRUE) whether to print progress to the console
+- return (list) Named list with the following components:
+    - `cols` (number) optimal columns (lowest mse)
+    - `model` (number) optimal model (lowest mse)
+    - `mse` (number) optimal mean squared error
+    - `threshold` (number) optimal threshold
+
+
+`predict_spca(df, X_cols, y_col='CASE_CNTL', model)` - Reduce dimensions of new data using the model from `spca()`. See original paper (https://tibshirani.su.domains/ftp/spca.pdf) for details.
+
+Params:
+- `df` (data.frame) NEBCS data
+- `X_cols` (array<character>) reduced columns found from `spca()`. Should use `spca()$cols`.
+- `y_col` (character) (default='CASE_CNTL') column name for the response variable
+- `model` (Object) best model found from `spca()`. Should use `spca()$model`.
+- return (array<numeric>) Pollutants reduced to one dimension using results from `spca()`.
+
 ## Graphing
 To-do
 

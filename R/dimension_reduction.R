@@ -214,9 +214,8 @@ spca = function(df, X_cols, y_col='CASE_CNTL', min.threshold=0.1, max.threshold=
 #' @return (array<numeric>) Pollutants reduced to one dimension using results from spca().
 #' 
 #' @examples
-#' res = spca(df, X_cols=c("ARSENIC", ...))
-#' res$model
-#' res$cols
+#' res = spca(...)
+#' predict_spca(df, X_cols=res$cols, model=res$model)
 predict_spca = function(df, X_cols, y_col='CASE_CNTL', model) {
   X = df[, X_cols]
   y = df[, y_col]
