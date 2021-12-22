@@ -18,10 +18,10 @@ You must supply your own copy of the NEBCS data, it _is not_ included in this
 repo. However, once you have your own copy you can process it using the functions
 below.
 
-`load_data(path, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0)`
+`load_data(google_id, dedup=FALSE, drop_missing_coords=FALSE, to_numeric=FALSE, N=0)`
 
 Params:
-- `path` (str) path to data file
+- `google_id` (str) Google Drive ID of the file. Must be set to shareable to anyone with the link
 - `dedup` (bool) (Optional) Whether or not to remove duplicate rows (occurs when someone moves)
 - `drop_missing_coords` (bool) (Optional) Whether or not to drop rows with missing X/Y coordinates
 - `to_numeric` (bool) (Optional) Whether or not to convert character columns (gender) to numeric
