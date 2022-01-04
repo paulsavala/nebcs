@@ -56,9 +56,9 @@ fill_na = function(df, cols=NULL, method="median") {
 
     # Fill NA values with the mean or median of the column
     if (method == "mean") {
-            df[is.na(df[, cols]) == TRUE, cols] = mean(df[, cols], na.rm=TRUE)
+            df[is.na(df[, cols]) == TRUE, cols] = sapply(df[, location_cols], function(x) mean(x, na.rm=TRUE))
     } else if (method == "median") {
-        df[is.na(df[, cols]) == TRUE, cols] = median(df[, cols], na.rm=TRUE)
+        df[is.na(df[, cols]) == TRUE, cols] = sapply(df[, location_cols], function(x) median(x, na.rm=TRUE))
     } else {
         stop("method must be 'mean' or 'median'")
     }
