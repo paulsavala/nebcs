@@ -170,7 +170,14 @@ Params:
 To-do
 
 ## Model fitting
-To-do
+`logr(df, X_cols=c('CIGDUR', 'GENDER'))` - Fit a logistic regression model to the data. This is just a wrapper for glm() to simplify the syntax.
+
+Params:
+- df (data.frame) NEBCS data
+- X_cols (array<character>) names of columns to use for input variable(s)
+- y_col (character) (default='CASE_CNTL') column name for the response variable
+- return (object) Model object
+
 
 ## Fit analysis
 To-do

@@ -39,6 +39,32 @@ remove_na = function(df, cols=NULL) {
     }
 }
 
+#' Fill rows with NA with the mean or median of the column
+#' @export
+#'
+#' @param df (data.frame) NEBCS data
+#' @param cols (list) list of column names to look for NA values
+#' @param method (str) (default "median") "mean" or "median"
+#' @return (data.frame) Same data as df, but with rows with NA values in any of the requested columns filled
+#' @examples
+#' fill_na(df, c('YEAR', 'CIGDUR'), method="mean")
+fill_na = function(df, cols=NULL, method="median") {
+    if (is.null(cols)) {
+        cols = names(df)
+    }
+    if (length(cols) > 1) {
+        return(df[rowSums(is.na(df[, cols])) == 0, ])
+    } else {
+        if (method == "mean") {
+            df[is.na(df[, cols]) == TRUE, cols] = mean(df[, cols], na.rm=TRUE)
+        } else if (method == "median") {
+            df[is.na(df[, cols]) == TRUE, cols] = median(df[, cols], na.rm=TRUE)
+        } else {
+            stop("method must be 'mean' or 'median'")
+        }
+    }
+}
+
 
 #' Make a correlation matrix with lower diagonal masked (for ease of readability)
 #' @export
