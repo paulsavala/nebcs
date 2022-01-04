@@ -63,6 +63,7 @@ fill_na = function(df, cols=NULL, method="median") {
             stop("method must be 'mean' or 'median'")
         }
     }
+    return(df)
 }
 
 

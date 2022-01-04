@@ -198,6 +198,14 @@ Params:
 - `cols` (list) list of column names to look for `NA` values
 - return (data.frame) Same data as `df`, but with rows with `NA` values in any of the requested columns removed
 
+
+`fill_na(df, cols=NULL, method="median")` - Fill rows with `NA` values in any of the requested columns with the mean or median
+  
+Params:
+- `df` (data.frame) NEBCS data
+- `cols` (list) list of column names to look for `NA` values
+- `method` (str) (default="median") "mean" or "median"
+- return (data.frame) Same data as `df`, but with rows with `NA` values in any of the requested columns removed
   
 `cor_mat(df)` - Make a correlation matrix with lower diagonal masked (for ease of readability)
   
