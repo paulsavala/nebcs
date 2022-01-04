@@ -49,19 +49,18 @@ remove_na = function(df, cols=NULL) {
 #' @examples
 #' fill_na(df, c('YEAR', 'CIGDUR'), method="mean")
 fill_na = function(df, cols=NULL, method="median") {
+    # Default to filling all columns
     if (is.null(cols)) {
         cols = names(df)
     }
-    if (length(cols) > 1) {
-        return(df[rowSums(is.na(df[, cols])) == 0, ])
-    } else {
-        if (method == "mean") {
+
+    # Fill NA values with the mean or median of the column
+    if (method == "mean") {
             df[is.na(df[, cols]) == TRUE, cols] = mean(df[, cols], na.rm=TRUE)
-        } else if (method == "median") {
-            df[is.na(df[, cols]) == TRUE, cols] = median(df[, cols], na.rm=TRUE)
-        } else {
-            stop("method must be 'mean' or 'median'")
-        }
+    } else if (method == "median") {
+        df[is.na(df[, cols]) == TRUE, cols] = median(df[, cols], na.rm=TRUE)
+    } else {
+        stop("method must be 'mean' or 'median'")
     }
     return(df)
 }

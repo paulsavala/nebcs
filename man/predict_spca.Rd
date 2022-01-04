@@ -24,7 +24,6 @@ Reduce dimensions of new data using the model from spca().
 See original paper (https://tibshirani.su.domains/ftp/spca.pdf) for details.
 }
 \examples{
-res = spca(df, X_cols=c("ARSENIC", ...))
-res$model
-res$cols
+res = spca(...)
+predict_spca(df, X_cols=res$cols, model=res$model)
 }
