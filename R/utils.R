@@ -106,6 +106,23 @@ powerset = function (x) {
     out
 }
 
+#' Return a dataframe with the x and/or y coordinates restricted to a range
+#' @export
+#'
+#' @param df (data.frame) NEBCS data
+#' @param xlim (tuple) (min_x, max_x)
+#' @param ylim (tuple) (min_y, max_y)
+#' @param xcol (str) Column name for x coordinates
+#' @param ycol (str) Column name for y coordinates
+#' @return (data.frame) Same data as df, but with rows with x-y coordinates outside the range removed
+#' @examples
+#' restrict_coords(df, xlim=c(-3*10^6, 3*10^6), ylim=c(-2*10^6, 1.5*10^6))
+restrict_coords = function(df, xlim=NULL, ylim=NULL, xcol='X_COORD', ycol='Y_COORD') {
+    x_msk = df[, xcol] >= xlim[1] & df[, xcol] <= xlim[2]
+    y_msk = df[, ycol] >= ylim[1] & df[, ycol] <= ylim[2]
+    return(df[x_msk & y_msk, ])
+}
+
 
 #' One-hot categorical columns
 #' @export

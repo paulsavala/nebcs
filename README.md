@@ -206,6 +206,17 @@ Params:
 - `cols` (list) list of column names to look for `NA` values
 - `method` (str) (default="median") "mean" or "median"
 - return (data.frame) Same data as `df`, but with rows with `NA` values in any of the requested columns removed
+
+
+`restrict_coords(df, xlim=c(-3*10^6, 3*10^6), ylim=c(-2*10^6, 1.5*10^6))` - Return a dataframe with the x and/or y coordinates restricted to a range
+
+Params:
+- `df` (data.frame) NEBCS data
+- `xlim` (tuple) `(min_x, max_x)`
+- `ylim` (tuple) `(min_y, max_y)`
+- `xcol` (str) Column name for x coordinates
+- `ycol` (str) Column name for y coordinates
+- return (data.frame) Same data as df, but with rows with x-y coordinates outside the range removed
   
 `cor_mat(df)` - Make a correlation matrix with lower diagonal masked (for ease of readability)
   
