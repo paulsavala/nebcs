@@ -1,5 +1,5 @@
 # NEBCS data loading, processing and analysis
-Author: Paul Savala, St. Edward's University
+Authors: Paul Savala - St. Edward's University, Morgan Allen - St. Edward's University
 
 ## Installation
 From an R terminal:
