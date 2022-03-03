@@ -119,7 +119,7 @@ train_test_split = function(df, test_size, combine=FALSE) {
     test_size = round(test_size)
   } else {
     stop("test_size must be a number between 0 and 1 or an integer less than the number of rows of df")
-  } 
+  }
   test_pid = sample(unique(df$PID), size=test_size, replace=FALSE)
   train_pid = setdiff(unique(df$PID), test_pid)
 
@@ -134,4 +134,32 @@ train_test_split = function(df, test_size, combine=FALSE) {
   } else {
     return(list(train=train_df, test=test_df))
   }
+}
+
+#' Take data with one row per residential location, and expand it to have one
+#' row per year. Since the last year of one location coincides with the first
+#' year of the next location, we average their pollutant exposures to arrive
+#' at a single value.
+#' @export
+#'
+#' @param df (data.frame) NEBCS data
+#' @return (data.frame) Same data, but with one row per year
+#' @examples
+#' df_expanded = explode_year_rows(df)
+explode_year_rows = function(df) {
+  # Add a column YEAR which is a CSV of the sequence of years
+  for(i in 1:nrow(df)) {
+    df[i, 'YEARS']=paste0(as.character(seq(df[i, 'RES_YRIN'], df[i, 'RES_YROUT'])), collapse=",")
+  }
+
+  # Split the rows by year
+  df = tidyr::separate_rows(df, YEARS, sep=',', convert=TRUE)
+
+  # Convert to data frame
+  df = as.data.frame(df)
+
+  # This introduces duplicate rows where one combo ends and another begins. So average the values.
+  df = df %>% group_by(PID, YEARS) %>% summarise_all(mean)
+
+  return(as.data.frame(df))
 }
